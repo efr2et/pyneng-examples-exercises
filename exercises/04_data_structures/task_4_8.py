@@ -26,3 +26,6 @@
 """
 
 ip = "192.168.3.1"
+ipo = ip.split('.')
+print(f"""{ipo[0]:10}{ipo[1]:10}{ipo[2]:10}{ipo[3]:10}
+{bin(int(ipo[0]))[2:]:0>8}  {bin(int(ipo[1]))[2:]:0>8}  {bin(int(ipo[2]))[2:]:0>8}  {bin(int(ipo[3]))[2:]:0>8}""")
