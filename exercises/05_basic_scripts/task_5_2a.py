@@ -41,3 +41,19 @@ bin_ip = "00001010000000010000000111000011"
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 
 """
+cidr = input("Введите IP-сети в формате X.X.X.X/X: ")
+ip, mask = cidr.split("/")
+ipo = ip.split(".")
+ipb = f"""{bin(int(ipo[0]))[2:]:0>8}{bin(int(ipo[1]))[2:]:0>8}{bin(int(ipo[2]))[2:]:0>8}{bin(int(ipo[3]))[2:]:0>8}"""
+netb = ipb[0:int(mask)] + "0" * (32 - int(mask))
+maskb = "1" * int(mask) + "0" * (32 - int(mask))
+
+print(f"""Network:
+{int(netb[0:8],2):<10}{int(netb[8:16],2):<10}{int(netb[16:24],2):<10}{int(netb[24:32],2):<10}
+{netb[0:8]:8}  {netb[8:16]:8}  {netb[16:24]:8}  {netb[24:32]:8}
+
+Mask:
+/{mask}
+{int(maskb[0:8],2):<10}{int(maskb[8:16],2):<10}{int(maskb[16:24],2):<10}{int(maskb[24:32],2):<10}
+{maskb[0:8]:8}  {maskb[8:16]:8}  {maskb[16:24]:8}  {maskb[24:32]:8}
+""")

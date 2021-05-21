@@ -24,3 +24,18 @@ Out[1]: '11111111111111111111111111110000'
 
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 """
+
+net = input("Введите IP-сети в формате X.X.X.X/X: ")
+ip, mask = net.split("/")
+ipo = ip.split(".")
+maskb = "1" * int(mask) + "0" * (32 - int(mask))
+
+print(f"""Network:
+{ipo[0]:10}{ipo[1]:10}{ipo[2]:10}{ipo[3]:10}
+{bin(int(ipo[0]))[2:]:0>8}  {bin(int(ipo[1]))[2:]:0>8}  {bin(int(ipo[2]))[2:]:0>8}  {bin(int(ipo[3]))[2:]:0>8}
+
+Mask:
+/{mask}
+{int(maskb[0:8],2):<10}{int(maskb[8:16],2):<10}{int(maskb[16:24],2):<10}{int(maskb[24:32],2):<10}
+{maskb[0:8]:8}  {maskb[8:16]:8}  {maskb[16:24]:8}  {maskb[24:32]:8}
+""")
