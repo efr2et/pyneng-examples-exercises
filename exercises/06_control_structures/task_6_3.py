@@ -58,9 +58,28 @@ access = {"0/12": "10", "0/14": "11", "0/16": "17", "0/17": "150"}
 trunk = {"0/1": ["add", "10", "20"], "0/2": ["only", "11", "30"], "0/4": ["del", "17"]}
 
 for intf, vlan in access.items():
-    print("interface FastEthernet" + intf)
+    print("interface FastEthernet " + intf)
     for command in access_template:
         if command.endswith("access vlan"):
             print(f" {command} {vlan}")
+        else:
+            print(f" {command}")
+
+for intf, vlan in trunk.items():
+    print("interface FastEthernet " + intf)
+    for command in trunk_template:
+        if command.endswith("allowed vlan"):
+            trunk_items = trunk.get(intf, [])
+            if trunk_items:
+                if trunk_items[0] == "add":
+                    print(f" {command} {trunk_items[0]} {','.join(trunk_items[1:])}")
+                elif trunk_items[0] == "del":
+                    print(f" {command} remove {','.join(trunk_items[1:])}")
+                elif trunk_items[0] in ["only"]:
+                    print(f" {command} {','.join(trunk_items[1:])}")
+                else:
+                    raise ValueError(f"Bad command '{trunk_items[0]}' for interface '{intf}' in trunk_template")
+            else:
+                raise ValueError(f"Empty command for interface '{intf}' in trunk_template")
         else:
             print(f" {command}")
