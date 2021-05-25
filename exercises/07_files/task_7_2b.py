@@ -16,4 +16,18 @@
 
 """
 
+import sys
+
 ignore = ["duplex", "alias", "configuration"]
+
+if len(sys.argv) == 3:
+    with open(sys.argv[1]) as fi, open(sys.argv[2], 'w') as fo:
+        for line in fi:
+            if not line.startswith('!'):
+                flag_ignore = False
+                for i in ignore:
+                    if i in line:
+                        flag_ignore = True
+                        break
+                if not flag_ignore:
+                    fo.write(line)

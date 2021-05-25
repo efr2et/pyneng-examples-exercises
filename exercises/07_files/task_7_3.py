@@ -20,3 +20,9 @@
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 
 """
+with open('CAM_table.txt') as f:
+    for line in f:
+        row = line.rstrip('\n').split()
+        if len(row) == 4:
+            if row[0].isdigit():
+                print(f"""{row[0]:<9}{row[1]:<20}{row[3]}""")

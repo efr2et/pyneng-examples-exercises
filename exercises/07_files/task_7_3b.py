@@ -17,3 +17,33 @@ Enter VLAN number: 10
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 
 """
+
+result = {}
+with open('CAM_table.txt') as f:
+    for line in f:
+        row = line.rstrip('\n').split()
+        if len(row) == 4:
+            if row[0].isdigit():
+                vlan = int(row[0])
+                if vlan in result:
+                    result[vlan][row[1]] = row[3]
+                else:
+                    result[vlan] = {}
+                    result[vlan][row[1]] = row[3]
+
+vlan = ""
+while not vlan.isdigit():
+    vlan = input("Введите номер vlan: ").strip()
+    if vlan.isdigit():
+        v = int(vlan)
+        if 0 < v < 4096:
+            if v in result:
+                for m in result[v]:
+                    print(f"""{v:<9}{m:<20}{result[v][m]}""")
+            else:
+                print("Этого vlan нет в списке!")
+        else:
+            print("Не верный номер vlan!")
+            vlan = ""
+    else:
+        print("Не верный номер vlan!")
