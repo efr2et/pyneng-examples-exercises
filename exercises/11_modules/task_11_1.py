@@ -44,6 +44,22 @@ def parse_cdp_neighbors(command_output):
     Плюс учимся работать с таким выводом.
     """
 
+    devices = {}
+    output = command_output.strip().split('\n')
+    r = output[0].strip().split('>')[0].strip()
+
+    idx = 1
+    while not output[idx].strip().startswith("Device ID"):
+        idx += 1
+
+    for line in output[idx+1:]:
+        dev, port_t, port_n, _, *flags, _, intf_t, intf_n = line.split()
+        intf = ''.join((intf_t, intf_n))
+        port = ''.join((port_t, port_n))
+        devices[(r, port)] = (dev, intf)
+
+    return devices
+
 
 if __name__ == "__main__":
     with open("sh_cdp_n_sw1.txt") as f:
