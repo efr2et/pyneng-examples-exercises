@@ -34,3 +34,31 @@
  '172.21.41.129', '172.21.41.130', '172.21.41.131', '172.21.41.132']
 
 """
+import ipaddress as ia
+from pprint import pprint
+
+ips = ['8.8.4.4', '1.1.1.1-3', '172.21.41.128-172.21.41.132']
+
+def convert_ranges_to_ip_list(ip_list):
+    result = []
+    for i in ip_list:
+        ir = i.split('-')
+        if len(ir) == 1:
+            result += [i]
+        else:
+            ipb = ia.ip_address(ir[0])
+            try:
+                ipe = ia.ip_address(ir[1])
+            except ValueError:
+                ipe = ia.ip_address('.'.join(str(ipb).split('.')[0:3]) + '.' + ir[1])
+            ip = ipb
+            while ip <= ipe:
+                result += [str(ip)]
+                ip += 1
+
+    return result
+
+
+if __name__ == '__main__':
+    pprint(convert_ranges_to_ip_list(ips))
+
