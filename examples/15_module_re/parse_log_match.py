@@ -1,9 +1,9 @@
 import re
 
-regex = ('\S+: Host \S+ '
-         'in vlan (\d+) '
-         'is flapping between port '
-         '(\S+) and port (\S+)')
+regex = (r'\S+: Host \S+ '
+         r'in vlan (\d+) '
+         r'is flapping between port '
+         r'(\S+) and port (\S+)')
 
 ports = set()
 
