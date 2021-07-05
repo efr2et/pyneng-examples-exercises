@@ -72,4 +72,4 @@ def generate_topology_from_cdp(list_of_files, save_to_filename=None):
 
 
 if __name__ == '__main__':
-    pprint(generate_topology_from_cdp(sh_cdp_files, 'sh_cdp_files.yaml'))
+    pprint(generate_topology_from_cdp(sh_cdp_files, 'topology.yaml'))

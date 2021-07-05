@@ -43,3 +43,23 @@
 > pip install graphviz
 
 """
+import yaml
+from draw_network_graph import draw_topology
+# from pprint import pprint
+
+
+def transform_topology(config):
+    with open(config) as cnf:
+        tl = yaml.safe_load(cnf)
+    result = {}
+    for k, v in {(dev, lintf,): (rdev, rintf) for dev, v1 in tl.items()
+                 for lintf, v2 in v1.items()
+                 for rdev, rintf in v2.items()}.items():
+        if result.get(v) != k:
+            result[k] = v
+    return result
+
+
+if __name__ == '__main__':
+    draw_topology(transform_topology('topology.yaml'), 'topology')
+    # pprint(transform_topology('sh_cdp_files.yaml'))
