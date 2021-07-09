@@ -5,6 +5,7 @@
   secret: cisco
   timeout: 5
   fast_cli: true
+  ssh_config_file: ./ssh_config
 - device_type: cisco_ios
   host: 192.168.100.2
   username: cisco
@@ -12,6 +13,7 @@
   secret: cisco
   timeout: 5
   fast_cli: true
+  ssh_config_file: ./ssh_config
 - device_type: cisco_ios
   host: 192.168.100.3
   username: cisco
@@ -19,3 +21,4 @@
   secret: cisco
   timeout: 5
   fast_cli: true
+  ssh_config_file: ./ssh_config

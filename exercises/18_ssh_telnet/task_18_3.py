@@ -47,6 +47,49 @@ In [16]: send_commands(r1, config=commands)
 Out[16]: 'config term\nEnter configuration commands, one per line.  End with CNTL/Z.\nR1(config)#username user5 password pass5\nR1(config)#username user6 password pass6\nR1(config)#end\nR1#'
 
 """
+import yaml
+from netmiko import (
+    ConnectHandler,
+    NetmikoTimeoutException,
+    NetmikoAuthenticationException,
+)
 
 commands = ["logging 10.255.255.1", "logging buffered 20010", "no logging console"]
 command = "sh ip int br"
+
+def send_show_command(device, cmd):
+    result = ""
+    with ConnectHandler(**device) as ssh:
+        ssh.enable()
+        result = ssh.send_command(cmd)
+    return result
+
+
+def send_config_commands(device, config_commands):
+    result = ""
+    try:
+        with ConnectHandler(**device) as ssh:
+            ssh.enable()
+            result = ssh.send_config_set(config_commands)
+    except (NetmikoAuthenticationException, NetmikoTimeoutException) as error:
+        print(error)
+    return result
+
+
+def send_commands(device, *, show=None, config=None):
+    if all((show, config)):
+        raise ValueError("Должен быть только один аргумент 'show 'или 'config'")
+    elif show:
+        return send_show_command(device, show)
+    elif config:
+        return send_config_commands(device, config)
+    else:
+        raise ValueError("Должен быть хотя бы один аргумент 'show 'или 'config'")
+
+
+if __name__ == "__main__":
+    with open("devices.yaml") as f:
+        devices = yaml.safe_load(f)
+    print(send_commands(devices[1], show=command))
+    print(send_commands(devices[1], config=commands))
+    print(send_commands(devices[1], show=command, config=commands))

@@ -1,0 +1,11 @@
+Host pyneng
+    Hostname 127.0.0.1
+    Port 2200
+    User vagrant
+    IdentityFile ~/.ssh/id_rsa
+Host 192.168.100.1 192.168.100.2 192.168.100.3
+     ProxyCommand ssh pyneng -W %h:22
+# For access to telnet in GNS3 on vagrant
+# /usr/bin/ssh -N -L 2301:192.168.100.1:23 pyneng >/dev/null 2>&1 & 
+# /usr/bin/ssh -N -L 2302:192.168.100.2:23 pyneng >/dev/null 2>&1 & 
+# /usr/bin/ssh -N -L 2303:192.168.100.3:23 pyneng >/dev/null 2>&1 & 
